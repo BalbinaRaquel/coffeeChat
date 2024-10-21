@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "gossip coffee"
+name = "coffee & chat"
 version = "0.1.0"
 description = "Projeto de um chat para conversas/atualizações"
 authors = ["Balbina Raquel Correia"]
@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 flet = "^0.24.1"
+pylance = "^0.18.2"
 
 
 [build-system]

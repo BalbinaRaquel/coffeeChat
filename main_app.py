@@ -42,11 +42,23 @@ def main(pagina):
     titulo = ft.Text('Bem-vindos ao Coffee & Chat!')
     pagina.add(titulo)
 
+    def enviar_mensagem(evento):
+        nome_usuario = caixa_nome.value
+        texto_campo_mensagem = campo_enviar_mensagem.value
+        
+        texto = ft.Text(f'{nome_usuario}: {campo_enviar_mensagem.value}')
+        chat.controls.append(texto)
+
+        # Limpar caixa de enviar mensagem
+        campo_enviar_mensagem.value = ''
+        pagina.update()
+
+
+    campo_enviar_mensagem = ft.TextField(label='Digite a sua mensagem...', on_submit=enviar_mensagem)
+    botao_enviar = ft.ElevatedButton('Enviar', on_click=enviar_mensagem)
+    
     
 
-    campo_enviar_mensagem = ft.TextField(label='Digite a sua mensagem...')
-    botao_enviar = ft.ElevatedButton('Enviar')
-    
     linha_mensagem = ft.Row([campo_enviar_mensagem, botao_enviar])
 
     chat = ft.Column()
@@ -74,7 +86,7 @@ def main(pagina):
 
     # criar popup que abre ao criar no botão iniciar
     titulo_popup = ft.Text('Vamos iniciar o Coffeebreak?')
-    caixa_nome = ft.TextField(label='Digite o seu nome')
+    caixa_nome = ft.TextField(label='Digite o seu nome', on_submit=entrar_chat)
     botao_popup = ft.ElevatedButton('Entrar no Chat', on_click=entrar_chat)
     
     popup = ft.AlertDialog(title=titulo_popup, content=caixa_nome, actions=[botao_popup])

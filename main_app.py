@@ -2,7 +2,7 @@
 
 # Estrutura do Projeto
 
-# Tela Inicial
+# Tela Inicial + PopUp de iniciar Chat
 # Step 01: Criar tela inicial com o seguintes recursos:
     # 1.1 : Título 'Coffee & Chat';
     # 1.2 Botão iniciar Chat - quando clicar no botão --> abrir popup/modal/alerta
@@ -22,12 +22,14 @@
     # 2.2 limpar a caixa de mensagem
     # 2.3 Mensagem enviada --> Tela de conversa
 
-# Tela de Chat
-# Step 03: 
+# Tela de Chat com túnel de comunicação com mensagens enviadas
+# Step 03: Criação do túnel de comunicação entre usuários
+    # 3.1 Criar função para enviar mensagens para o túnel de comunicação
+    # 3.2 Criar o túnel de comunicação
+    # 3.3 Enviar mensagens no túnel de comunicação
 
-
-# main code: Ctrl+F5 Chat
-# Criar função principal para rodar o main (aplicativo)
+# main code: Coffee & Chat
+# Função principal main
 
 import flet as ft
 
@@ -40,12 +42,33 @@ def main(pagina):
     titulo = ft.Text('Bem-vindos ao Coffee & Chat!')
     pagina.add(titulo)
 
+    chat = ft.Column()
+
+
+
+    # step 03: Criação do Túnel de comunicação entre usuários
+    # 3.1 Criar função para enviar mensagens para o túnel de comunicação
+   
+    def enviar_mensagem_tunel(mensagem):
+        # executar tudo para todos os usuários 
+        texto_tunel = ft.Text(mensagem)
+        chat.controls.append(texto_tunel)
+
+
+        
+        pagina.update()
+
+    # 3.2 Criar o túnel de comunicação
+    pagina.pubsub.subscribe(enviar_mensagem_tunel)
+
     def enviar_mensagem(evento):
         nome_usuario = caixa_nome.value
         texto_campo_mensagem = campo_enviar_mensagem.value
         
-        texto = ft.Text(f'{nome_usuario}: {campo_enviar_mensagem.value}')
-        chat.controls.append(texto)
+    # 3.3 Enviar mensagens no túnel de comunicação
+        mensagem = f'{nome_usuario}: {campo_enviar_mensagem.value}'
+        pagina.pubsub.send_all(mensagem)
+        
 
         # Limpar caixa de enviar mensagem
         campo_enviar_mensagem.value = ''
@@ -58,10 +81,6 @@ def main(pagina):
     
 
     linha_mensagem = ft.Row([campo_enviar_mensagem, botao_enviar])
-
-    chat = ft.Column()
-
-
 
 
     # criar função entrar no chat com o click do botão do popup
@@ -83,15 +102,17 @@ def main(pagina):
 
         # Adicionar mensagem 'usuario entrou no chat'
         nome_usuario = caixa_nome.value
-        texto_mensagem = ft.Text(f'{nome_usuario} entrou no Coffee & Chat')
-        chat.controls.append(texto_mensagem)
+        
+        # 3.3 Enviar mensagens no túnel de comunicação
+        mensagem = f'{nome_usuario} entrou no Coffee & Chat'
+        pagina.pubsub.send_all(mensagem)
 
         pagina.update()
         
 
 
     # criar popup que abre ao criar no botão iniciar
-    titulo_popup = ft.Text('Vamos iniciar o Coffeebreak?')
+    titulo_popup = ft.Text('Vamos ao Coffeebreak?')
     caixa_nome = ft.TextField(label='Digite o seu nome', on_submit=entrar_chat)
     botao_popup = ft.ElevatedButton('Entrar no Chat', on_click=entrar_chat)
     

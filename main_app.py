@@ -33,9 +33,7 @@ import flet as ft
 
 def main(pagina):
     # steps do projeto
-
-    
-    
+       
     imagem_pg = ft.Image(src=f'icon1.png', width=250, height=250, fit=ft.ImageFit.CONTAIN,)
     pagina.add(imagem_pg)
     # Criar Título  
@@ -64,6 +62,8 @@ def main(pagina):
     chat = ft.Column()
 
 
+
+
     # criar função entrar no chat com o click do botão do popup
     # Ao clicar no botão -> remover título - remover botão 'Iniciar chat' e fechar popup
     def entrar_chat(evento):
@@ -80,6 +80,12 @@ def main(pagina):
         
         # carregar o campo de enviar mensagem e carregar botão enviar
         pagina.add(linha_mensagem)
+
+        # Adicionar mensagem 'usuario entrou no chat'
+        nome_usuario = caixa_nome.value
+        texto_mensagem = ft.Text(f'{nome_usuario} entrou no Coffee & Chat')
+        chat.controls.append(texto_mensagem)
+
         pagina.update()
         
 
